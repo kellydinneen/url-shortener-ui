@@ -29,7 +29,6 @@ export class App extends Component {
 
   updateUrls = (updatedUrls) => {
     this.setState({urls: updatedUrls});
-    console.log('update', this.state.urls)
   }
 
   componentDidMount = () => {
@@ -44,7 +43,8 @@ export class App extends Component {
           <h1>URL Shortener</h1>
           <UrlForm updateUrls={this.updateUrls}/>
         </header>
-          <UrlContainer urls={this.state.urls}/>
+          {this.state.error && <p>Oh no! Nomething went wrong</p>}
+          {!this.state.error && <UrlContainer urls={this.state.urls}/>}
       </main>
     );
   }
