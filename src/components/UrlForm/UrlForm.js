@@ -23,8 +23,9 @@ class UrlForm extends Component {
     }
     await postUrl(url);
     this.clearInputs();
-    const urls = await getUrls();
-    this.props.updateUrls(urls);
+    const promise = await getUrls();
+    const data = await promise.json();
+    this.props.updateUrls(data.urls);
   }
 
   clearInputs = () => {
