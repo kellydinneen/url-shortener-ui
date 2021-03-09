@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { getUrls, postUrl } from '../../apiCalls';
 
 class UrlForm extends Component {
   constructor(props) {
@@ -14,9 +15,16 @@ class UrlForm extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     e.preventDefault();
+    const url = {
+      long_url: this.state.urlToShorten,
+      title: this.state.title
+    }
+    await postUrl(url);
     this.clearInputs();
+    const urls = await getUrls();
+    this.props.updateUrls(urls);
   }
 
   clearInputs = () => {

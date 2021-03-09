@@ -8,22 +8,43 @@ export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      urls: []
+      urls: [],
+      error: null
     }
   }
 
-  componentDidMount() {
+  getAllUrls = async () => {
+    try {
+      const promise = await getUrls();
+      const data = await promise.json();
+      this.setState({
+          urls: data.urls
+        })
+    } catch (err) {
+      this.setState({
+          error: err
+        })
+    }
   }
+
+  updateUrls = (updatedUrls) => {
+    this.setState({urls: updatedUrls});
+    console.log('update', this.state.urls)
+  }
+
+  componentDidMount = () => {
+    this.getAllUrls();
+  }
+
 
   render() {
     return (
       <main className="App">
         <header>
           <h1>URL Shortener</h1>
-          <UrlForm />
+          <UrlForm updateUrls={this.updateUrls}/>
         </header>
-
-        <UrlContainer urls={this.state.urls}/>
+          <UrlContainer urls={this.state.urls}/>
       </main>
     );
   }
